@@ -9,14 +9,37 @@ public class Node {
 	private List<Node> children;
 	private List<int[]> moves;
 	private int[][] board;
-	private int nbSimulations = 0;
-	private double winScore;
+	private int visits =0 ;
+	private double wins;
+	
+	public int getVisits() {
+		return visits;
+	}
+
+
+	public void setVisits(int visits) {
+		this.visits = visits;
+	}
+
+
+	public double getWins() {
+		return wins;
+	}
+
+
+	public void setWins(double wins) {
+		this.wins = wins;
+	}
+
+	
 	public Node(int [][] board) {
 		this.board = Utils.copyBoard(board);
 		moves = new LinkedList<int[]>();
 		children = new LinkedList<Node>();
 		
 	}
+	
+	
 	public Node(Node parent) {
 		this.board = Utils.copyBoard(parent.getBoard());
 		this.moves = new LinkedList<int[]>();
