@@ -52,7 +52,6 @@ public class MonteCarloPlayer extends Player{
 		
 		int temp;
 		List<int[]> todo = Utils.findPossibleMoves(board);
-		System.out.println(todo.size());
 		for (int[] coord:todo) {
 			 temp =searchVictory(board,todo,true);
 			if (score<=temp) {

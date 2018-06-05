@@ -2,6 +2,7 @@ package main.monte_carlo_tree_search;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 import utils.Utils;
@@ -10,6 +11,9 @@ public class MonteCarloAlgo {
 	public static void expandNode(Node node) {
 		List<int[]> possibleMoves = Utils.findPossibleMoves(node.getBoard());
 		
+		for (int[] is : possibleMoves) {
+			node.addChild(new Node(node,is));
+		}
 	}
 	
 	private Node selectPromisingNode(Node rootNode) {

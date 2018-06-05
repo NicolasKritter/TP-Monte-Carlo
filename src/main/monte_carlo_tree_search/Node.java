@@ -11,6 +11,7 @@ public class Node {
 	private int[][] board;
 	private int visits =0 ;
 	private double wins;
+	private int[] nextMove;
 	
 	public int getVisits() {
 		return visits;
@@ -40,11 +41,16 @@ public class Node {
 	}
 	
 	
-	public Node(Node parent) {
+	public Node(Node parent,int[] move) {
+		this.nextMove = move;
 		this.board = Utils.copyBoard(parent.getBoard());
+		this.board[move[0]][move[1]] = 2;
 		this.moves = new LinkedList<int[]>();
 		moves.addAll(parent.getMoves());
 		children = new LinkedList<Node>();
+	}
+	public int[] getNextMove() {
+		return this.nextMove;
 	}
 	
 	public void setParent(Node parent) {
