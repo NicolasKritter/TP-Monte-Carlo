@@ -87,6 +87,7 @@ public class MonteCarloAlgo {
 	        tempNode.setBoard(board2);
 	     
 	        boardStatus = Gomoku.evaluate(tempNode.getBoard());
+	        node.setEnding(boardStatus);
 	        p=3-p;
 	    }
 	    return boardStatus;

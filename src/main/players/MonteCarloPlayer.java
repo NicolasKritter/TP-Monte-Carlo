@@ -1,12 +1,6 @@
 package main.players;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import main.Gomoku;
 import main.Player;
 import main.monte_carlo_tree_search.MonteCarloAlgo;
-import utils.Utils;
 
 public class MonteCarloPlayer extends Player{
 

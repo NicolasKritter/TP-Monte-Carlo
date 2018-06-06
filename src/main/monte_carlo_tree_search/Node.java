@@ -7,7 +7,6 @@ import utils.Utils;
 public class Node {
 	private Node parent;
 	private List<Node> children;
-	private List<int[]> moves;
 	private int[][] board;
 	private int visits =0 ;
 	private int wins;
@@ -36,7 +35,6 @@ public class Node {
 	
 	public Node(int [][] board) {
 		this.board = Utils.copyBoard(board);
-		moves = new LinkedList<int[]>();
 		children = new LinkedList<Node>();
 		
 	}
@@ -47,8 +45,6 @@ public class Node {
 		this.nextMove = move;
 		this.board = Utils.copyBoard(parent.getBoard());
 		this.board[move[0]][move[1]] = 2;
-		this.moves = new LinkedList<int[]>();
-		moves.addAll(parent.getMoves());
 		children = new LinkedList<Node>();
 	}
 	
@@ -72,11 +68,7 @@ public class Node {
 	public int[][] getBoard(){
 		return board;
 	}
-	
-	public List<int[]> getMoves(){
-		return this.moves;
-	}
-	
+		
 	public List<Node> getChildren(){
 		return children;
 	}
