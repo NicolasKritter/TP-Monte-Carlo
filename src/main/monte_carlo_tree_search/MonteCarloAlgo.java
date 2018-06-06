@@ -61,10 +61,16 @@ public class MonteCarloAlgo {
 	        tempNode.getParent().setWins(Integer.MIN_VALUE);
 	        return boardStatus;
 	    }
+	    int p=1;
+	    List<int[]> Moves = Utils.findPossibleMoves(tempNode.getBoard());
 	    while (boardStatus == 0) {
-	        tempState.togglePlayer();
-	        tempState.randomPlay();
-	        boardStatus = tempState.getBoard().checkStatus();
+	        int[] m= Utils.generateNextMoveFromList(Moves);
+	        int[][]board2=tempNode.getBoard();
+	        board2[m[0]][m[1]]=p;
+	        tempNode.setBoard(board2);
+	     
+	        boardStatus = Gomoku.evaluate(tempNode.getBoard());
+	        p=3-p;
 	    }
 	    return boardStatus;
 	}
