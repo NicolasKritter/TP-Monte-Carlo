@@ -2,7 +2,6 @@ package main.monte_carlo_tree_search;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 
 import main.Gomoku;
@@ -11,8 +10,24 @@ import utils.Utils;
 public class MonteCarloAlgo {
 	
 	public static int[] startMonteCarlo(int[][] board) {
+		long end  = System.currentTimeMillis()+4000;
+		Node root = new Node(board);
+		while(System.currentTimeMillis()<end) {
+			Node promisingNode = selectPromisingNode(root);
+			if (promisingNode.getEnding()==0) {
+				expandNode(promisingNode);
+			}
+			
+			Node nodeToExplore = promisingNode;
+			if (promisingNode.getChildren().size()>0) {
+				nodeToExplore = promisingNode.getRandomeChild();
+			}
+			int playResult = simulateRandomPlayout(nodeToExplore);
+			backPropogation(nodeToExplore, playResult);
+		}
 		
-		return new int[2];
+		Node winner = root.getChildWithMaxScore();
+		return winner.getNextMove();
 		
 	}
 	

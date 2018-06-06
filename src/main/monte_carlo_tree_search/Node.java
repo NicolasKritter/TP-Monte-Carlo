@@ -12,6 +12,7 @@ public class Node {
 	private int visits =0 ;
 	private double wins;
 	private int[] nextMove;
+	private int ending = 0;
 	
 	public int getVisits() {
 		return visits;
@@ -50,6 +51,13 @@ public class Node {
 		moves.addAll(parent.getMoves());
 		children = new LinkedList<Node>();
 	}
+	
+	public int getEnding() {
+		return ending;
+	}
+	public void setEnding(int ending) {
+		this.ending = ending;
+	}
 	public int[] getNextMove() {
 		return this.nextMove;
 	}
@@ -75,7 +83,11 @@ public class Node {
 	public void addChild(Node node) {
 		children.add(node);
 	}
-
+	
+	public Node getRandomeChild() {
+		int index = (int) Math.round(Math.random()*this.children.size());
+		return this.children.get(index);
+	}
 
 	public void setBoard(int[][] board2) {
 		this.board=board2;
