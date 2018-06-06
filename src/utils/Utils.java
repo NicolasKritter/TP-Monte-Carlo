@@ -43,7 +43,7 @@ public class Utils {
 	
 	
 	public  static int[] generateNextMoveFromList(List<int[]> list) {
-	int index = (int) Math.round(Math.random()*list.size());
+	int index = (int) Math.round(Math.random()*(list.size()-1));
 	int[] res = list.get(index);
 	list.remove(index);
 	return res;

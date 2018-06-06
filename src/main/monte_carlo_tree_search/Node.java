@@ -36,7 +36,9 @@ public class Node {
 	public Node(int [][] board) {
 		this.board = Utils.copyBoard(board);
 		children = new LinkedList<Node>();
-		
+		nextMove = new int[2];
+		nextMove[0] = -1;
+		nextMove[1] = -1;
 	}
 	
 	
@@ -77,7 +79,7 @@ public class Node {
 	}
 	
 	public Node getRandomeChild() {
-		int index = (int) Math.round(Math.random()*this.children.size());
+		int index = (int) Math.round(Math.random()*(this.children.size()-1));
 		return this.children.get(index);
 	}
 
