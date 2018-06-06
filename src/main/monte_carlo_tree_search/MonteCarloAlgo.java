@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import main.Gomoku;
 import utils.Utils;
 
 public class MonteCarloAlgo {
@@ -37,22 +38,27 @@ public class MonteCarloAlgo {
 	}
 	
 	// backProp and simulateRandom to do..
-	private void backPropogation(Node nodeToExplore, int playerNo) {
-	    Node tempNode = nodeToExplore;
+	private void backPropogation(Node leaf, int playerNo) {
+	    Node tempNode = leaf;
+	    boolean mark=false;
 	    while (tempNode != null) {
+	    	if(mark) {
+	    		tempNode.setWins(tempNode.getWins()+1);
+	    	}
 	        tempNode.setVisits(tempNode.getVisits()+1);
-	        if (tempNode.getState().getPlayerNo() == playerNo) {
-	            tempNode.getState().addScore(WIN_SCORE);
+	        if (Gomoku.evaluate(tempNode.getBoard())==1) {
+	        	tempNode.setWins(tempNode.getWins()+1);
+	        	mark=true;
 	        }
 	        tempNode = tempNode.getParent();
 	    }
 	}
+	
 	private int simulateRandomPlayout(Node node) {
-	    Node tempNode = new Node(node);
-	    State tempState = tempNode.getState();
-	    int boardStatus = tempState.getBoard().checkStatus();
-	    if (boardStatus == opponent) {
-	        tempNode.getParent().getState().setWinScore(Integer.MIN_VALUE);
+	    Node tempNode = new Node(node.getBoard());
+	    int boardStatus =Gomoku.evaluate(tempNode.getBoard());
+	    if (boardStatus == 0) {
+	        tempNode.getParent().setWins(Integer.MIN_VALUE);
 	        return boardStatus;
 	    }
 	    while (boardStatus == Board.IN_PROGRESS) {
