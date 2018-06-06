@@ -10,7 +10,7 @@ public class Node {
 	private List<int[]> moves;
 	private int[][] board;
 	private int visits =0 ;
-	private double wins;
+	private int wins;
 	private int[] nextMove;
 	private int ending = 0;
 	
@@ -24,12 +24,12 @@ public class Node {
 	}
 
 
-	public double getWins() {
+	public int getWins() {
 		return wins;
 	}
 
 
-	public void setWins(double wins) {
+	public void setWins(int wins) {
 		this.wins = wins;
 	}
 
@@ -92,5 +92,13 @@ public class Node {
 	public void setBoard(int[][] board2) {
 		this.board=board2;
 		
+	}
+	public Node getChildWithMaxScore() {
+		List<Node>children=this.getChildren();
+		Node M=new Node(this.getBoard());
+		for(Node c:children)
+			if(c.getWins()>M.getWins())
+					M=c;
+		return(M);
 	}
 }
