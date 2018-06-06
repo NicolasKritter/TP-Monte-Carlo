@@ -46,7 +46,7 @@ public class MonteCarloAlgo {
 	    		tempNode.setWins(tempNode.getWins()+1);
 	    	}
 	        tempNode.setVisits(tempNode.getVisits()+1);
-	        if (Gomoku.evaluate(tempNode.getBoard())==1) {
+	        if (Gomoku.evaluate(tempNode.getBoard())==2) {
 	        	tempNode.setWins(tempNode.getWins()+1);
 	        	mark=true;
 	        }
@@ -57,11 +57,11 @@ public class MonteCarloAlgo {
 	private int simulateRandomPlayout(Node node) {
 	    Node tempNode = new Node(node.getBoard());
 	    int boardStatus =Gomoku.evaluate(tempNode.getBoard());
-	    if (boardStatus == 0) {
+	    if (boardStatus == 1) {
 	        tempNode.getParent().setWins(Integer.MIN_VALUE);
 	        return boardStatus;
 	    }
-	    while (boardStatus == Board.IN_PROGRESS) {
+	    while (boardStatus == 0) {
 	        tempState.togglePlayer();
 	        tempState.randomPlay();
 	        boardStatus = tempState.getBoard().checkStatus();
