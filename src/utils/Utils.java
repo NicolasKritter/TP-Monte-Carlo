@@ -34,6 +34,12 @@ public class Utils {
 		
 	}
 	
+	public static double calcUTCValue(int totalParentSimulation,double winScore,int nbSimulations) {
+		if (nbSimulations==0) {
+			return Integer.MAX_VALUE;
+		}
+		return (winScore/(double)nbSimulations)+1.41*Math.sqrt((Math.log(totalParentSimulation)/(double) nbSimulations));
+	}
 	
 	
 	public  static int[] generateNextMoveFromList(List<int[]> list) {
