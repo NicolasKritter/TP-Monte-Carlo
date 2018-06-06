@@ -42,6 +42,7 @@ public class Node {
 	
 	
 	public Node(Node parent,int[] move) {
+		this.parent= parent;
 		this.nextMove = move;
 		this.board = Utils.copyBoard(parent.getBoard());
 		this.board[move[0]][move[1]] = 2;
@@ -55,6 +56,9 @@ public class Node {
 	
 	public void setParent(Node parent) {
 		this.parent = parent;
+	}
+	public Node getParent() {
+		return this.parent;
 	}
 	
 	public int[][] getBoard(){
@@ -70,5 +74,11 @@ public class Node {
 	}
 	public void addChild(Node node) {
 		children.add(node);
+	}
+
+
+	public void setBoard(int[][] board2) {
+		this.board=board2;
+		
 	}
 }
