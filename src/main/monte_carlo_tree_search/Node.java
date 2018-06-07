@@ -1,4 +1,6 @@
 package main.monte_carlo_tree_search;
+import java.net.NetworkInterface;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,7 +23,10 @@ public class Node {
 	public void setVisits(int visits) {
 		this.visits = visits;
 	}
-
+	
+	public void incrementVisits() {
+		this.visits+=1;
+	}
 
 	public int getWins() {
 		return wins;
@@ -31,7 +36,10 @@ public class Node {
 	public void setWins(int wins) {
 		this.wins = wins;
 	}
-
+	
+	public void incrementWinScore(int value) {
+		this.wins+=value;
+	}
 	
 	public Node(int [][] board) {
 		this.board = Utils.copyBoard(board);
@@ -89,10 +97,13 @@ public class Node {
 	}
 	public Node getChildWithMaxScore() {
 		List<Node>children=this.getChildren();
-		Node M=new Node(this.getBoard());
-		for(Node c:children)
-			if(c.getWins()>M.getWins())
-					M=c;
+		Node M=children.get(0);
+	
+		for(Node c:children) {
+			if(c.getWins()>M.getWins() && c.getNextMove()[0]!=-1 && c.getNextMove()[1]!=-1) {
+				M=c;
+			}
+		}	
 		return(M);
 	}
 }

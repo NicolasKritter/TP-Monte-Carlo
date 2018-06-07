@@ -1,5 +1,6 @@
 package main.monte_carlo_tree_search;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -8,7 +9,7 @@ import main.Gomoku;
 import utils.Utils;
 
 public class MonteCarloAlgo {
-	
+	private static final int WIN_VALUE = 10;
 	public static int[] startMonteCarlo(int[][] board) {
 		long end  = System.currentTimeMillis()+4000;
 		Node root = new Node(board);
@@ -27,6 +28,7 @@ public class MonteCarloAlgo {
 		}
 		
 		Node winner = root.getChildWithMaxScore();
+		
 		return winner.getNextMove();
 		
 	}
@@ -60,12 +62,15 @@ public class MonteCarloAlgo {
 	    boolean mark=false;
 	    while (tempNode != null) {
 	    	if(mark) {
-	    		tempNode.setWins(tempNode.getWins()+1);
+	    		tempNode.incrementWinScore(WIN_VALUE);
 	    	}
-	        tempNode.setVisits(tempNode.getVisits()+1);
-	        if (Gomoku.evaluate(tempNode.getBoard())==2) {
-	        	tempNode.setWins(tempNode.getWins()+1);
+	        tempNode.incrementVisits();
+	        int ending = Gomoku.evaluate(tempNode.getBoard());
+	        if (ending==2) {
+	        	tempNode.incrementWinScore(WIN_VALUE);
 	        	mark=true;
+	        }else if (ending==1) {
+	        	tempNode.setWins(Integer.MIN_VALUE);
 	        }
 	        tempNode = tempNode.getParent();
 	    }
@@ -73,6 +78,8 @@ public class MonteCarloAlgo {
 	
 	private static int simulateRandomPlayout(Node node) {
 	    Node tempNode = new Node(node.getBoard());
+	    
+	    //TODO
 	    int boardStatus =Gomoku.evaluate(tempNode.getBoard());
 	    if (boardStatus == 1) {
 	        tempNode.getParent().setWins(Integer.MIN_VALUE);

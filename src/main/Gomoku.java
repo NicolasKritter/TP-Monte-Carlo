@@ -91,6 +91,7 @@ public class Gomoku {
 			printBoard(board);
 			int[] move = players[currentPlayer].getMove(board);
 			while (!valid(move, board)) {
+				System.out.println(Arrays.toString(move));
 				System.out.println("NOPE ! Try again! ");
 				move = players[currentPlayer].getMove(board);
 			}
@@ -98,6 +99,7 @@ public class Gomoku {
 			status = evaluate(board);
 			currentPlayer = currentPlayer == 0 ? 1 : 0;
 		}
+		printBoard(board);
 		return status;
 	}
 
