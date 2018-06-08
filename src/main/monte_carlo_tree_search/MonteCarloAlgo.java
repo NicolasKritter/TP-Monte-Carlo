@@ -3,6 +3,7 @@ package main.monte_carlo_tree_search;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import main.Gomoku;
 import utils.Utils;
@@ -12,6 +13,9 @@ public class MonteCarloAlgo {
 	public static int[] startMonteCarlo(int[][] board) {
 		long end  = System.currentTimeMillis()+4000;
 		Node root = new Node(board);
+		int countW = 0;
+		int countL = 0;
+		int countD = 0;
 		while(System.currentTimeMillis()<end) {
 			Node promisingNode = selectPromisingNode(root);
 			if (promisingNode.getEnding()==0) {
@@ -22,10 +26,19 @@ public class MonteCarloAlgo {
 			if (promisingNode.getChildren().size()>0) {
 				nodeToExplore = promisingNode.getRandomChild();
 			}
-			simulateRandomPlayout(nodeToExplore);
-			backPropogation(nodeToExplore);
+			int res = simulateRandomPlayout(nodeToExplore);
+//			System.out.println("res= "+res);
+			nodeToExplore.setEnding(res);
+			if (res==2) {
+				countW+=1;
+			}else if(res==1) {
+				countL+=1;
+			}else {
+				countD+=1;
+			}
+			backPropogation(nodeToExplore,res);
 		}
-		
+		System.out.println("Win: "+countW+" loose: "+countL+" Draw: "+countD);
 		Node winner = root.getChildWithMaxScore();
 		return winner.getNextMove();
 		
@@ -55,21 +68,16 @@ public class MonteCarloAlgo {
 
 	
 	// backProp and simulateRandom to do..
-	private static void backPropogation(Node leaf) {
+	private static void backPropogation(Node leaf, int ending) {
 	    Node tempNode = leaf;
-	    boolean mark=false;
 	    while (tempNode != null) {
 	    	tempNode.incrementVisits();
-	    	if(mark) {
-	    		tempNode.incrementWinScore(WIN_VALUE);
-	    	}
-	     
-	        if (tempNode.getEnding()==2) {
+
+	        if (ending==2) {
 	        	tempNode.incrementWinScore(WIN_VALUE);
-	        	mark=true;
-	        }else if (tempNode.getEnding()==1) {
-	        	tempNode.setWins(Integer.MIN_VALUE);
-	        	mark =false;
+	        }else if (ending==1) {
+	        	tempNode.incrementWinScore(-WIN_VALUE);
+	        	
 	        }
 	        tempNode = tempNode.getParent();
 	    }
@@ -96,7 +104,6 @@ public class MonteCarloAlgo {
 	        p=3-p;
 	      
 	    }
-	    node.setEnding(boardStatus);
 	    return boardStatus;
 	}
 	

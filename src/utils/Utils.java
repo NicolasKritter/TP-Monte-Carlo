@@ -1,7 +1,6 @@
 package utils;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import main.Gomoku;
@@ -34,11 +33,11 @@ public class Utils {
 		
 	}
 	
-	public static double calcUTCValue(int totalParentSimulation,double winScore,int nbSimulations) {
-		if (nbSimulations==0) {
+	public static double calcUTCValue(int totalVisits,double winScore,int nodeVisit) {
+		if (nodeVisit==0) {
 			return Integer.MAX_VALUE;
 		}
-		return (winScore/(double)nbSimulations)+1.41*Math.sqrt((Math.log(totalParentSimulation)/(double) nbSimulations));
+		return (winScore/(double)nodeVisit)+1.41*Math.sqrt((Math.log(totalVisits)/(double) nodeVisit));
 	}
 	
 	
