@@ -1,6 +1,5 @@
 package main.monte_carlo_tree_search;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -21,22 +20,21 @@ public class MonteCarloAlgo {
 			
 			Node nodeToExplore = promisingNode;
 			if (promisingNode.getChildren().size()>0) {
-				nodeToExplore = promisingNode.getRandomeChild();
+				nodeToExplore = promisingNode.getRandomChild();
 			}
-			int playResult = simulateRandomPlayout(nodeToExplore);
-			backPropogation(nodeToExplore, playResult);
+			simulateRandomPlayout(nodeToExplore);
+			backPropogation(nodeToExplore);
 		}
 		
 		Node winner = root.getChildWithMaxScore();
-		
 		return winner.getNextMove();
 		
 	}
 	
 	private static void expandNode(Node node) {
 		List<int[]> possibleMoves = Utils.findPossibleMoves(node.getBoard());
-		for (int[] is : possibleMoves) {
-			node.addChild(new Node(node,is));
+		for (int[] move : possibleMoves) {
+			node.addChild(new Node(node,move));
 		}
 	}
 	
@@ -57,20 +55,21 @@ public class MonteCarloAlgo {
 
 	
 	// backProp and simulateRandom to do..
-	private static void backPropogation(Node leaf, int playerNo) {
+	private static void backPropogation(Node leaf) {
 	    Node tempNode = leaf;
 	    boolean mark=false;
 	    while (tempNode != null) {
+	    	tempNode.incrementVisits();
 	    	if(mark) {
 	    		tempNode.incrementWinScore(WIN_VALUE);
 	    	}
-	        tempNode.incrementVisits();
-	        int ending = Gomoku.evaluate(tempNode.getBoard());
-	        if (ending==2) {
+	     
+	        if (tempNode.getEnding()==2) {
 	        	tempNode.incrementWinScore(WIN_VALUE);
 	        	mark=true;
-	        }else if (ending==1) {
+	        }else if (tempNode.getEnding()==1) {
 	        	tempNode.setWins(Integer.MIN_VALUE);
+	        	mark =false;
 	        }
 	        tempNode = tempNode.getParent();
 	    }
@@ -79,7 +78,6 @@ public class MonteCarloAlgo {
 	private static int simulateRandomPlayout(Node node) {
 	    Node tempNode = new Node(node.getBoard());
 	    
-	    //TODO
 	    int boardStatus =Gomoku.evaluate(tempNode.getBoard());
 	    if (boardStatus == 1) {
 	        tempNode.getParent().setWins(Integer.MIN_VALUE);
@@ -92,11 +90,13 @@ public class MonteCarloAlgo {
 	        int[][]board2=tempNode.getBoard();
 	        board2[m[0]][m[1]]=p;
 	        tempNode.setBoard(board2);
-	     
+	      
 	        boardStatus = Gomoku.evaluate(tempNode.getBoard());
-	        node.setEnding(boardStatus);
+	       
 	        p=3-p;
+	      
 	    }
+	    node.setEnding(boardStatus);
 	    return boardStatus;
 	}
 	

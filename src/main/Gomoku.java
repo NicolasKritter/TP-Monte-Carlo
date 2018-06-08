@@ -145,7 +145,6 @@ public class Gomoku {
 	}
 
 	public static void main(String[] args) {
-
 		Player[] players = new Player[2];
 		int[][] board = new int[9][9];
 
